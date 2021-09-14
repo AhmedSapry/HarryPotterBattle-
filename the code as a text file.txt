@@ -1,0 +1,106 @@
+#parent class 
+class wizard:
+    def __init__(self):
+        self.Health = 100
+        self.Energy = 500 
+        self.CommonSpells={'avadakedavra':100,'crucio':40,'imperio':20,'sheild':0}
+        self.Sheild = 3
+        
+     #functions to reduce the Energy and health    
+    def Decreasing_Energy(self,EnergyValue):
+        if(EnergyValue==0):
+            if(self.Sheild==0):
+                print("you can't use the sheild")
+                return 1
+            else:
+                self.Sheild = self.Sheild-1
+                return 0 
+        self.Energy = self.Energy - EnergyValue
+        
+    def Decreasing_Health(self,HealthValue):
+        self.Health = self.Health - HealthValue
+        
+#chield classes     
+class Harry(wizard):
+    def __init__(self):
+        super().__init__()
+        self.Spells={'reducto':60,'fiendfyre':50,'nebulus':40}
+        self.Spells.update(self.CommonSpells)
+    
+    
+    
+class Voldemart(wizard):
+    def __init__(self):
+        super().__init__()
+        self.Spells={'taboo':80,'expulso':50,'confringo':55}
+        self.Spells.update(self.CommonSpells)
+        
+#making objects 
+        
+Harry1 = Harry() 
+Voldemart1 = Voldemart()
+
+#the loop
+
+while(1):
+    #taking input and analysis 
+    lineOfSpell = input("Enter the spells: (Harry then Voldemart)")
+    hSpell,vSpell = lineOfSpell.split(" ")
+    hSpell =hSpell.lower()
+    vSpell =vSpell.lower()
+    
+    print("\n")
+    
+    #decreasing energy
+    SheildCheck1 = Harry1.Decreasing_Energy(Harry1.Spells[hSpell])
+    SheildCheck2 = Voldemart1.Decreasing_Energy(Voldemart1.Spells[vSpell])
+    
+    if(SheildCheck1==1):
+            print("Game over")
+            print("Voldemart wins")
+            break
+    if(SheildCheck2==1):
+            print("Game over")
+            print("Harry wins")
+            break
+    
+    #checking the use of shield 
+    if(Harry1.Spells[hSpell]==0):
+            pass
+    elif(Voldemart1.Spells[vSpell]==0):
+            pass
+    else:    
+            difference = Harry1.Spells[hSpell] - Voldemart1.Spells[vSpell]
+            if(difference>0):
+                Voldemart1.Decreasing_Health(difference)
+    
+            elif(difference<0):
+                difference = difference*(-1) 
+                Harry1.Decreasing_Health(difference)
+        
+            else:
+                pass 
+        
+    #checking health
+    if(Harry1.Health<=0):
+        print("Game over")
+        print("Voldemart wins")
+        break
+    elif(Harry1.Energy<=0):
+        print("Game over")
+        print("Voldemart wins")
+        break
+    elif(Voldemart1.Health<=0):
+        print("Game over")
+        print("Harry wins")
+        break
+    elif(Voldemart1.Health<=0):
+        print("Game over")
+        print("Harry wins")
+        break  
+    else:
+        print("        Harry         Voldemart")
+        print("Health : "+str(Harry1.Health)+"           "+str(Voldemart1.Health))
+        print("Energy : "+str(Harry1.Energy)+"           "+str(Voldemart1.Energy))
+    
+
